@@ -1,12 +1,12 @@
-var mysql = require('mysql');
+var mysql = require('mysql2');
 
 //database information
 var dbConn = mysql.createPool({
-	host:'192.168.10.135',
-	user:'user',
-	password:'fakepass',
+	host:'localhost',
+	user:'clockuser2',
+	password:'clockpass2',
 	database:'clockcarddb',
-  acquireTimeout: 2000,
+  acquireTimeout: 1000,
   connectionLimit: 100
 });
 
