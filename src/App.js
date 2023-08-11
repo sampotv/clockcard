@@ -7,6 +7,7 @@ import Company from './Components/Company';
 import EmployeeView from './Components/EmployeeView';
 import Sidebar from './Components/Sidebar';
 import EmployeePage from './Components/EmployeePage';
+import Adminpage from './Components/Adminpage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path = "/Company" element = { < Company />} />
           <Route path = "/Employees" element = { <EmployeeView/> } />
           <Route path = '/employee/:idUser' element = { <EmployeePage/> } />
+          <Route path = '/adminpage' element = { <Adminpage/> } />
         </Routes>
         </BrowserRouter>
     </div>

@@ -47,6 +47,19 @@ app.get('/shift/:idUser', function(req, res) {
         })
     })
 })
+
+//Start shift
+app.get('/shiftstart/:idUser', function(req, res) {
+    dbConn.getConnection(function() {
+        dbConn.query('insert into shift (shiftstart, idUser) values (now(), ?)',[req.params.idUser], function (error, results) {
+            if (error) throw error;
+            console.log("Shift start added");
+            res.send(results);
+        })
+    })
+})
+
+
 app.get("/",(req,res)=>{
     res.send("testing")
 
