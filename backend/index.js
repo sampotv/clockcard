@@ -40,9 +40,19 @@ app.get('/employee/:idUser', function(req, res) {
 //Get information from shift with idUser
 app.get('/shift/:idUser', function(req, res) {
     dbConn.getConnection(function() {
-        dbConn.query('select * from Shift WHERE idUser=?',[req.params.idUser], function (error, results) {
+        dbConn.query('select *, date_format(shiftstart, "%d.%m.%Y : %H.%i.%s") as start, date_format(shiftend, "%d.%m.%Y : %H.%i.%s") as end from Shift WHERE idUser=?',[req.params.idUser], function (error, results) {
             if (error) throw error;
             console.log("Shift information fetched");
+            res.send(results);
+        })
+    })
+})
+//Start shift
+app.get('/shiftlength/:idUser', function(req, res) {
+    dbConn.getConnection(function() {
+        dbConn.query('select *, timediff(shiftend, shiftstart) as Length from shift WHERE idUser=?',[req.params.idUser], function (error, results) {
+            if (error) throw error;
+            console.log("Shift start added");
             res.send(results);
         })
     })

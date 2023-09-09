@@ -8,6 +8,7 @@ function EmployeePage() {
 
     const [getEmp, setGetEmp] = useState([]);
     const [getShift, setGetShift] = useState([]);
+    const [getLength, setGetLength] = useState([]);
     const {idUser} = useParams();
 
     useEffect( () => {
@@ -28,6 +29,15 @@ function EmployeePage() {
         shiftget()
       }, [idUser]);
 
+      useEffect( () => {
+        async function shiftlength() {
+        const getlength = await fetch(`http://localhost:5002/shiftlength/${idUser}`).then((res) =>
+          res.json()
+        )
+        setGetLength(getlength) }
+        shiftlength()
+      }, [idUser]);
+
   return (
     <div>EmployeePage
     <div>
@@ -36,15 +46,19 @@ function EmployeePage() {
        <div className='employeeText' ><div className='' > {employee.firstname}</div></div>
        <div className='' ><div className='employeeText'> {employee.lastname} </div></div>      
        </div>
-       )} 
-    {getShift.map((shift) =>       
+       )}
+      
+        
+        {getLength.map((length) =>       
         <div className='formflex'>
-        <div className='formstation' ><div className='slidetextright' >Shift start: {shift.shiftstart}</div></div>
-        <div className='formstation' ><div className='slidetextright'>Shift end: {shift.shiftend} </div></div>
-        <div className='formstation' ><div className='slidetextright'>Shift length: {shift.shiftlength} </div></div>
+        <div className='formstation' ><div className='slidetextright' >Shift start: {length.shiftstart}</div></div>
+        <div className='formstation' ><div className='slidetextright'>Shift end: {length.shiftend} </div></div>
+        <div className='formstation' ><div className='slidetextright'>Shift length: {length.Length} </div></div>
        
         </div>
-        )}  
+        )} 
+        
+           
     </div></div>
   )
 }
