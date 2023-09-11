@@ -50,7 +50,7 @@ app.get('/shift/:idUser', function(req, res) {
 //Count shift lengths for user
 app.get('/shiftlength/:idUser', function(req, res) {
     dbConn.getConnection(function() {
-        dbConn.query('select *, timediff(shiftend, shiftstart) as Length from shift WHERE idUser=?',[req.params.idUser], function (error, results) {
+        dbConn.query('select *, date_format(shiftstart, "%d.%m.%Y : %H.%i.%s") as start, date_format(shiftend, "%d.%m.%Y : %H.%i.%s") as end, time_format(timediff(shiftend, shiftstart), "%H.%i.%s") as Length from shift WHERE idUser=?',[req.params.idUser], function (error, results) {
             if (error) throw error;
             console.log("Shift start added");
             res.send(results);

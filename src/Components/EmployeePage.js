@@ -50,8 +50,8 @@ function EmployeePage() {
       
         {getLength.map((length) =>       
         <div className='formflex'>
-        <div className='formstation' ><div className='slidetextright' >Shift start: {length.shiftstart}</div></div>
-        <div className='formstation' ><div className='slidetextright'>Shift end: {length.shiftend} </div></div>
+        <div className='formstation' ><div className='slidetextright' >Shift start: {length.start}</div></div>
+        <div className='formstation' ><div className='slidetextright'>Shift end: {length.end} </div></div>
         <div className='formstation' ><div className='slidetextright'>Shift length: {length.Length} </div></div>
        
         </div>
