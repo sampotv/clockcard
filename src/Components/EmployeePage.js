@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 function EmployeePage() {
 
     const [getEmp, setGetEmp] = useState([]);
-    const [getShift, setGetShift] = useState([]);
+    const [getAdd, setGetAdd] = useState([]);
     const [getLength, setGetLength] = useState([]);
     const {idUser} = useParams();
 
@@ -21,12 +21,12 @@ function EmployeePage() {
       }, [idUser]);
 
       useEffect( () => {
-        async function shiftget() {
-        const getshift = await fetch(`http://localhost:5002/shift/${idUser}`).then((res) =>
+        async function shiftadd() {
+        const getadd = await fetch(`http://localhost:5002/totallength/${idUser}`).then((res) =>
           res.json()
         )
-        setGetShift(getshift) }
-        shiftget()
+        setGetAdd(getadd) }
+        shiftadd()
       }, [idUser]);
 
       useEffect( () => {
@@ -48,7 +48,6 @@ function EmployeePage() {
        </div>
        )}
       
-        
         {getLength.map((length) =>       
         <div className='formflex'>
         <div className='formstation' ><div className='slidetextright' >Shift start: {length.shiftstart}</div></div>
@@ -57,7 +56,11 @@ function EmployeePage() {
        
         </div>
         )} 
-        
+        {getAdd.map((add) =>       
+        <div className='formflex'>
+        <div className='formstation' ><div className='slidetextright' >Total time: {add.totaltime}</div></div>    
+        </div>
+        )} 
            
     </div></div>
   )

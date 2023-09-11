@@ -47,7 +47,7 @@ app.get('/shift/:idUser', function(req, res) {
         })
     })
 })
-//Start shift
+//Count shift lengths for user
 app.get('/shiftlength/:idUser', function(req, res) {
     dbConn.getConnection(function() {
         dbConn.query('select *, timediff(shiftend, shiftstart) as Length from shift WHERE idUser=?',[req.params.idUser], function (error, results) {
@@ -57,7 +57,16 @@ app.get('/shiftlength/:idUser', function(req, res) {
         })
     })
 })
-
+//count shift lengths together
+app.get('/totallength/:idUser', function(req, res) {
+    dbConn.getConnection(function() {
+        dbConn.query('select time_format(sec_to_time(sum(shiftlength)), "%H.%i.%s") as totaltime from shift where idUser=?',[req.params.idUser], function (error, results) {
+            if (error) throw error;
+            console.log("Shifts counted together");
+            res.send(results);
+        })
+    })
+})
 //Start shift
 app.get('/shiftstart/:idUser', function(req, res) {
     dbConn.getConnection(function() {
@@ -68,6 +77,18 @@ app.get('/shiftstart/:idUser', function(req, res) {
         })
     })
 })
+
+//Update shift length to the shift table
+app.get('/setlength/', function(req, res) {
+    dbConn.getConnection(function() {
+        dbConn.query('update shift set shiftlength = timestampdiff(second, shiftstart, shiftend)',[req.params.idUser], function (error, results) {
+            if (error) throw error;
+            console.log("Shift start added");
+            res.send(results);
+        })
+    })
+})
+
 
 
 app.get("/",(req,res)=>{
