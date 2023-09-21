@@ -3,10 +3,84 @@ const bodyParser = require("body-parser");
 const cors = require('cors');
 const dbConn = require("./db/dbconfig.js");
 const app = express();
+const passport = require('passport');
+const bcrypt = require('bcryptjs');
 
 app.use(cors());
 app.use(bodyParser.json({limit: "50mb"}));
 app.use(bodyParser.urlencoded({limit: "50mb",extended: true}));
+//app.use(passport.initialize());
+
+//create a secret key for jwt
+let jwtSecretKey = null;
+if(process.env.JWTKEY === undefined) {
+  jwtSecretKey = require('./db/jwt-key.json').secret;
+} else {
+  jwtSecretKey = process.env.JWTKEY;
+}
+const jwt = require("jsonwebtoken");
+const JwtStrategy = require('passport-jwt').Strategy,
+    ExtractJwt = require('passport-jwt').ExtractJwt;
+ 
+      let options = {}
+      options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+
+      options.secretOrKey = jwtSecretKey;
+      
+      passport.use(new JwtStrategy(options, function(jwt_payload, done) {
+        console.log("Processing JWT payload for token content:");
+        console.log(jwt_payload);
+  
+        const now = Date.now() / 1000;
+        if(jwt_payload.exp > now) {
+          done(null, jwt_payload);
+        }
+        else {// expired
+          done(null, false);
+        }
+      }));
+
+      app.post("/login", (req, res)=> {
+        const user = req.body.username
+        const password = req.body.password
+        dbConn.getConnection ( async (err, connection)=> {
+       if (err) throw (err)
+       //perform a sql search with given username to get specific data for the username
+           const sqlSearch = "Select * from User where username = ?"
+           const search_query = mysql.format(sqlSearch,[user])
+           console.log(search_query)
+            dbConn.query(search_query, async (err, result) => {
+              console.log(result)
+              connection.release(); 
+           if (err)
+             throw (err);
+             //check if the given username exist
+           if (result.length == 0) {
+             console.log("User does not exist");
+             res.sendStatus(404);
+           }
+           else {
+             const passwordHash = result[0].password;
+             //get the passwordHash from result and compare if the password is correct
+             if (await bcrypt.compare(password, passwordHash)) {
+               console.log("Login Successful");
+               console.log("Generating accessToken");
+               
+                 //with jwt.sign we create the jsonwebtoken, payload has values idUser, username
+                jwt.sign({ idUser: result[0].idUser, username: result[0].username}, jwtSecretKey, {expiresIn: "2h"}, (err, token) => {
+                   //jwt.sign({ idUser: result[0].idUser, username: result[0].username, idCompany: result[0].idCompany}, jwtSecretKey, {expiresIn: "2h"}, (err, token) => {
+                res.json({ token });  
+                console.log(token)
+               });   
+       
+             } else {
+               console.log("Password Incorrect");
+               res.send("Password incorrect!");
+             }//console.log(jwt)
+           }
+         }) 
+       }) 
+       }) 
 
 //testing db
 app.get('/shift', function(req, res) {
@@ -88,7 +162,16 @@ app.get('/setlength/', function(req, res) {
         })
     })
 })
-
+//Select month to show shifts from that month
+app.get('/shiftstart2/:idUser/:month', function(req, res) {
+  dbConn.getConnection(function() {
+      dbConn.query('select * from shift where idUser=? and month(shiftstart) = ?',[ req.params.idUser, req.params.month], function (error, results) {
+          if (error) throw error;
+          console.log("Monthly hours calculated");
+          res.send(results);
+      })
+  })
+})
 
 
 app.get("/",(req,res)=>{
