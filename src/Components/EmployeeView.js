@@ -25,7 +25,8 @@ useEffect( () => {
                     {employee.firstname}</div>
                 <div className='' ><div className='employeeText' >
                     {employee.lastname}</div></div>
-                    <div><Link to={`/employee/${employee.idUser}`}><button className='' >Open employee page</button></Link></div>                                       
+                    <div><Link to={`/employee/${employee.idUser}`}><button className='' >Open employee page</button></Link></div>
+                    <div><Link to={`/employee/${employee.idUser}`}><button className='' >Open monthly hours</button></Link></div>                                        
                 </div>          
         )}
         </div>

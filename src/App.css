@@ -47,3 +47,13 @@
   .slidetextright{
     margin-left: 30px;
   }
+  .button {
+    margin-right: 10%;
+    display: flex;
+    font-size: 20px;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .paddingTop {
+    padding-top: 5%;
+  }

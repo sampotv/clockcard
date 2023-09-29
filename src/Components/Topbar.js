@@ -15,7 +15,7 @@ export default function TopBar() {
                     <div className='topBarElements'><Link to = "/">Frontpage</Link></div>
                     <div className='topBarElements'><Link to = "/Company">Company</Link></div>
                     <div className='topBarElements'><Link to ="/Employees">Employees</Link></div>
-                    <div className='topBarElements'><Link to ="/Dayview">Dayview</Link></div>
+                    <div className='topBarElements'><Link to ="/shift/:idUser">Shift</Link></div>
                     <div className='topBarElements'><Link onClick={logout} to ="/">Logout</Link></div>
                     </div>
             </div>
