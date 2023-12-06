@@ -6,6 +6,7 @@ const dbConn = mysql.createPool({
 	user:'root',
 	password:'Muki8881',
 	database:'clockcarddb',
+
   acquireTimeout: 1000,
   connectionLimit: 100
 });

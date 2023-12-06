@@ -32,21 +32,21 @@ function MonthlyHours() {
 
       useEffect( () => {
         async function shiftadd() {
-        const getadd = await fetch(`http://localhost:5002/totalmonth/${idUser}/9`).then((res) =>
+        const getadd = await fetch(`http://localhost:5002/totalmonth/${idUser}/${month}`).then((res) =>
           res.json()
         )
         setGetAdd(getadd) }
         shiftadd()
-      }, [idUser]);
+      }, [idUser,month]);
 
       useEffect( () => {
         async function monthtotal() {
-        const gettotal = await fetch(`http://localhost:5002/monthtotal/${idUser}/9`).then((res) =>
+        const gettotal = await fetch(`http://localhost:5002/monthtotal/${idUser}/${month}`).then((res) =>
           res.json()
         )
         setGetTotal(gettotal) }
         monthtotal()
-      }, [idUser]);
+      }, [idUser,month]);
 
 
       
@@ -56,7 +56,21 @@ function MonthlyHours() {
     {getEmp.map((employee) =>       
        <div className='formflex'>Employee name: 
        <div className='employeeText' ><div className='' > {employee.firstname}</div></div>
-       <div className='' ><div className='employeeText'> {employee.lastname} </div></div>      
+       <div className='' ><div className='employeeText'> {employee.lastname} </div></div>
+       <div className='formflex'>Valitse kuukausi: 
+        <div className='slidetextright10'><div><Link to={`/monthly/${employee.idUser}/1`}><button className='' >1</button></Link></div></div>
+        <div className='slidetextright10'><div><Link to={`/monthly/${employee.idUser}/2`}><button className='' >2</button></Link></div></div>
+        <div className='slidetextright10'><div><Link to={`/monthly/${employee.idUser}/3`}><button className='' >3</button></Link></div></div>
+        <div className='slidetextright10'><div><Link to={`/monthly/${employee.idUser}/4`}><button className='' >4</button></Link></div></div>
+        <div className='slidetextright10'><div><Link to={`/monthly/${employee.idUser}/5`}><button className='' >5</button></Link></div></div>
+        <div className='slidetextright10'><div><Link to={`/monthly/${employee.idUser}/6`}><button className='' >6</button></Link></div></div>
+        <div className='slidetextright10'><div><Link to={`/monthly/${employee.idUser}/7`}><button className='' >7</button></Link></div></div>
+        <div className='slidetextright10'><div><Link to={`/monthly/${employee.idUser}/8`}><button className='' >8</button></Link></div></div>
+        <div className='slidetextright10'><div><Link to={`/monthly/${employee.idUser}/9`}><button className='' >9</button></Link></div></div>
+        <div className='slidetextright10'><div><Link to={`/monthly/${employee.idUser}/10`}><button className='' >10</button></Link></div></div>
+        <div className='slidetextright10'><div><Link to={`/monthly/${employee.idUser}/11`}><button className='' >11</button></Link></div></div>
+        <div className='slidetextright10'><div><Link to={`/monthly/${employee.idUser}/12`}><button className='' >12</button></Link></div></div>
+      </div>       
        </div>
        )}
       

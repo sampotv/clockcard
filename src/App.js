@@ -39,7 +39,7 @@ function App() {
           <Route path = '/shift' element = { <Shift userJwt={ userJwt }/> } />
           <Route path = '/shiftstart/:userId' element = { <StartShift userJwt={ userJwt }/> } />
           <Route path = '/start' element = { <Start userJwt={ userJwt }/>} />
-          <Route path = '/monthly/:idUser/9' element = { <MonthlyHours userJwt={ userJwt } /> } />
+          <Route path = '/monthly/:idUser/:month' element = { <MonthlyHours userJwt={ userJwt } /> } />
           <Route path = '/monthly' element = { <TotalMonth userJwt={ userJwt } /> } />
         </Routes>
         </BrowserRouter>

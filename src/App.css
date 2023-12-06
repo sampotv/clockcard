@@ -47,6 +47,9 @@
   .slidetextright{
     margin-left: 30px;
   }
+  .slidetextright10{
+    margin-left: 10px;
+  }
   .button {
     margin-right: 10%;
     display: flex;
