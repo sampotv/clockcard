@@ -14,6 +14,7 @@ import Shift from './Components/Shift'
 import StartShift from './Components/StartShift';
 import Start from './Components/Start';
 import TotalMonth from './Components/TotalMonth'
+import MonthlyHours from './Components/MonthlyHours';
 
 const jwtFromStorage = window.localStorage.getItem('appAuthData');
 
@@ -38,6 +39,7 @@ function App() {
           <Route path = '/shift' element = { <Shift userJwt={ userJwt }/> } />
           <Route path = '/shiftstart/:userId' element = { <StartShift userJwt={ userJwt }/> } />
           <Route path = '/start' element = { <Start userJwt={ userJwt }/>} />
+          <Route path = '/monthly/:idUser/9' element = { <MonthlyHours userJwt={ userJwt } /> } />
           <Route path = '/monthly' element = { <TotalMonth userJwt={ userJwt } /> } />
         </Routes>
         </BrowserRouter>

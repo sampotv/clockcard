@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const dbConn = mysql.createPool({
 	host:'localhost',
 	user:'root',
-	password:'root',
+	password:'Muki8881',
 	database:'clockcarddb',
   acquireTimeout: 1000,
   connectionLimit: 100

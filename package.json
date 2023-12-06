@@ -63,9 +63,5 @@
     "url": "git+https://github.com/sampotv/clockcard.git"
   },
   "author": "Sampo Vuorento",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/sampotv/clockcard/issues"
-  },
-  "homepage": "https://github.com/sampotv/clockcard#readme"
+  "license": "ISC"
 }

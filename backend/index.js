@@ -9,6 +9,7 @@ const mysql = require('mysql');
 var uuid = require('uuid');
 var crypto = require('crypto');
 
+
 app.use(cors());
 app.use(bodyParser.json({limit: "50mb"}));
 app.use(bodyParser.urlencoded({limit: "50mb",extended: true}));
@@ -240,23 +241,12 @@ app.get('/shiftlength/:idUser', function(req, res) {
 //count shift lengths together
 app.get('/totallength/:idUser', function(req, res) {
     dbConn.getConnection(function() {
-        dbConn.query('select time_format(sec_to_time(sum(shiftlength)), "%H.%i.%s") as totaltime from shift where idUser=?',[req.params.idUser], function (error, results) {
+      dbConn.query('select time_format(sec_to_time(sum(shiftlength)), "%H.%i.%s") as totaltime from shift where idUser=?',[req.params.idUser], function (error, results) {
             if (error) throw error;
             console.log("Shifts counted together");
             res.send(results);
         })
     })
-})
-
-//count shift lengths in one month together
-app.get('/totalmonth/:idUser', function(req, res) {
-  dbConn.getConnection(function() {
-      dbConn.query('select time_format(sec_to_time(sum(shiftlength)), "%H.%i.%s") as totaltime from shift where idUser=? and month(shiftstart) = ?',[req.params.idUser, req.body.month], function (error, results) {
-          if (error) throw error;
-          console.log("Shifts counted together");
-          res.send(results);
-      })
-  })
 })
 
 //Start shift
@@ -308,7 +298,7 @@ app.get('/setlength/', function(req, res) {
 //Select month to show shifts from that month
 app.get('/monthtotal/:idUser/:month', function(req, res) {
   dbConn.getConnection(function() {
-      dbConn.query('select * from shift where idUser=? and month(shiftstart) = ?',[ req.params.idUser, req.params.month], function (error, results) {
+      dbConn.query('select *, date_format(shiftstart, "%d.%m.%Y : %H.%i.%s") as start, date_format(shiftend, "%d.%m.%Y : %H.%i.%s") as end from shift where idUser=? and month(shiftstart) = ?',[ req.params.idUser, req.params.month], function (error, results) {
           if (error) throw error;
           console.log("Monthly hours calculated");
           res.send(results);
@@ -316,6 +306,18 @@ app.get('/monthtotal/:idUser/:month', function(req, res) {
   })
 })
 
+//count shift lengths in one month together
+app.get('/totalmonth/:idUser/:month', function(req, res) {
+  dbConn.getConnection(function() {
+      dbConn.query('select time_format(sec_to_time(sum(shiftlength)), "%H.%i.%s") as totaltime from shift where idUser=? and month(shiftstart) = ?',[req.params.idUser, req.params.month], function (error, results) {
+          if (error) throw error;
+          console.log("Shifts counted together");
+          res.send(results);
+      })
+  })
+})
+
+//, date_format(shiftstart, "%d.%m.%Y : %H.%i.%s") as start, date_format(shiftend, "%d.%m.%Y : %H.%i.%s") as end from
 
 app.get("/",(req,res)=>{
     res.send("testing")
